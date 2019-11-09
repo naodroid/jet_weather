@@ -13,7 +13,6 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun useCityList(): List<City> {
@@ -24,7 +23,6 @@ fun useCityList(): List<City> {
 
     +model {
         scope.launch {
-            delay(3000)
             val list = scope.async {
                 readCityList(context)
             }
@@ -40,7 +38,6 @@ private suspend fun readCityList(context: Context): List<City> = coroutineScope 
     //Same error happened when I use "kotshi".
     //Probably, this is the issue of Android-Studio-Preview.
     //So I switched to Gson.
-
     val jsonText = readAsset(context, "city_list.json")
     val gson = Gson()
     val listType = object : TypeToken<List<City>>() {}.type

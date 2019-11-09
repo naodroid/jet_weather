@@ -2,13 +2,13 @@ package com.github.naodroid.jetweather.data.entity
 
 // for open weather
 data class Weather5Day(
-    val list: Array<Forecast>
+    val list: List<Forecast> = emptyList()
 )
 
 data class Forecast(
     val dt: Long,
     val main: Detail,
-    val weather: Array<Weather> //this is array, but containts 1 element.
+    val weather: List<Weather> //this is array, but containts 1 element.
 )
 
 data class Detail(
