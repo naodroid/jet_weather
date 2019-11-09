@@ -6,6 +6,7 @@ package com.github.naodroid.jetweather.data.entity
 /// [{"country": "UA", "id": 707860, "coord": {"lat": 44.549999, "lon": 34.283333}, "name": "Hurzuf"}]
 
 data class City(
+    val id: Long,
     val name: String
 )
 

@@ -22,13 +22,11 @@ fun useWeather(city: City): Weather5Day? {
     val coroutineCtx = +ambient(CoroutineContextAmbient)
     val scope = CoroutineScope(coroutineCtx)
 
-    +modelFor(city.name) {
-        println("ACCESS")
+    +modelFor(city.id) {
         scope.launch {
             val result = scope.async {
                 accessResource(context)
             }.await()
-            println("ACCESS:" + result.list.count())
             state.value = result
         }
 
@@ -38,11 +36,21 @@ fun useWeather(city: City): Weather5Day? {
     return state.value
 }
 
-suspend fun accessResource(context: Context): Weather5Day = coroutineScope {
-    val jsonText = readAsset(context, "5day_sample.json")
-    val gson = Gson()
-    val dataType = object : TypeToken<Weather5Day>() {}.type
-    gson.fromJson<Weather5Day>(
-        jsonText, dataType
-    )
-}
+suspend fun accessResource(context: Context): Weather5Day =
+    coroutineScope {
+        val jsonText = readAsset(context, "5day_sample.json")
+        val gson = Gson()
+        val dataType = object : TypeToken<Weather5Day>() {}.type
+        gson.fromJson<Weather5Day>(
+            jsonText, dataType
+        )
+    }
+
+// I want to use ktor, but background internal error happened at compile.
+//suspend fun accessNetwork(client: HttpClient, apiKey: String, city: City): Weather5Day =
+//    coroutineScope {
+//        val url =
+//            "https://api.openweathermap.org/data/2.5/weather?id=${city.id}&appid=${apiKey}&units=metric"
+//        client.get<Weather5Day>(url)
+//    }
+

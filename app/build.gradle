@@ -69,7 +69,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     //ktor
-    implementation "io.ktor:ktor-client-cio:1.2.5"
+    def ktor_version = "1.2.5"
+    implementation "io.ktor:ktor-client-android:$ktor_version"
+    implementation "io.ktor:ktor-client-gson:$ktor_version"
 
     implementation 'com.google.code.gson:gson:2.8.6'
 }
