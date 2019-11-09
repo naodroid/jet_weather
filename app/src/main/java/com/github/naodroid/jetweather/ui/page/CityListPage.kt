@@ -21,32 +21,50 @@ import androidx.ui.layout.Row
 import androidx.ui.layout.WidthSpacer
 import androidx.ui.material.Button
 import androidx.ui.material.TextButtonStyle
+import androidx.ui.material.TopAppBar
 import androidx.ui.material.surface.Surface
+import androidx.ui.material.themeColor
 import androidx.ui.material.themeTextStyle
 import androidx.ui.tooling.preview.Preview
 import com.github.naodroid.jetweather.data.entity.City
+import com.github.naodroid.jetweather.data.state.GlobalState
+import com.github.naodroid.jetweather.data.state.Page
 import com.github.naodroid.jetweather.data.state.useCityList
+import com.github.naodroid.jetweather.ui.widget.EditText
 import java.util.*
 
 @Composable
 fun CityListPage() {
     val keywordState = +state { "" }
-    val cityList = useCityList().filter(keywordState.value)
+    val cityList = useCityList()
+        .filterBy(keyword = keywordState.value)
+        .take(100)
 
     FlexColumn(
         crossAxisSize = LayoutSize.Expand,
         mainAxisSize = LayoutSize.Expand
     ) {
         inflexible {
-            KeywordInput(keywordState = keywordState)
+            TopAppBar(
+                title = { Text(text = "CityList") },
+                color = +themeColor { primary }
+            )
+        }
+        inflexible {
+            EditText(
+                keyword = keywordState.value,
+                onValueChange = {
+                    keywordState.value = it
+                }
+            )
         }
         flexible(flex = 1.0f) {
-            CityListTable(cityList.take(100))
+            CityListTable(cityList)
         }
     }
 }
 
-private fun List<City>.filter(keyword: String): List<City> =
+private fun List<City>.filterBy(keyword: String): List<City> =
     if (keyword.isBlank()) {
         this
     } else {
@@ -97,9 +115,12 @@ private fun CityListTable(cityList: List<City>) {
             mainAxisSize = LayoutSize.Expand
         ) {
             cityList.map {
-                CityRow(city = it, onCityClick = { (city) ->
-                    println(city)
-                })
+                CityRow(
+                    city = it,
+                    onCityClick = { city ->
+                        GlobalState.currentPage = Page.Weather(city = city)
+                    }
+                )
             }
         }
     }
