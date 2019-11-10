@@ -16,14 +16,16 @@ Weather app example using `Jetpack Compose`.
 
 ## How to run
 
-1. Install [Android Studio 4.0 Preview](https://developer.android.com/studio/preview)
-2. download project
-3. read Project
+1. get API key from open weather
+2. Write API key to local.properties file, `api_key=[YOUR_KEY]`
+3. Install [Android Studio 4.0 Preview](https://developer.android.com/studio/preview)
+4. download project
+5. read Project
+
+
 
 ## Limitations
 
-* Currently, this app doesn't use network.
-  * I tried to use `ktor`, but an exception happened in compile time.
 * Weather icons used in this app are localed in `resources`.
   * I couldn't find the way to create image from network.
 * AndroidStudio's component-preview doesn't work well.
